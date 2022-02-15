@@ -120,13 +120,11 @@ def listings():
                     if "base_price" in param.split("."):
                         comparison_sign = param.split(".")[1]
 
-                        for listing_item in listing_list:
-                            filtered_listings = LISTING.comparison_function(
-                                listings_list=listing_list,
-                                comparison_sign=comparison_sign,
-                                base_price=listing_item["base_price"],
-                                threshold_price=float(price),
-                            )
+                        filtered_listings = LISTING.comparison_function(
+                            listings_list=listing_list,
+                            comparison_sign=comparison_sign,
+                            threshold_price=float(price),
+                        )
             else:
                 return jsonify({"Error": "Unsupported query args. Please try again."})
             # endregion filtering
