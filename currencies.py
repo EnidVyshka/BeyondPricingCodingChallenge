@@ -1,4 +1,12 @@
 from dataclasses import dataclass, asdict
+import requests
+import ast
+
+YOUR_APP_ID = "c445eedf3afd4694bce32d580a9186f8"
+decoded_request = requests.get(
+    "https://openexchangerates.org/api/latest.json?app_id={}".format(YOUR_APP_ID)
+).content.decode("utf-8")
+exchange_dict = ast.literal_eval(decoded_request)
 
 
 @dataclass
@@ -39,3 +47,10 @@ class CURRENCIES:
         if code not in cls.__PER_CODE__:
             raise Exception(f"Currency with code={code} does not exist")
         return cls.__PER_CODE__[code]
+
+    @classmethod
+    def exchange_coefficient(cls, base_currency, target_currency) -> float:
+        return (
+            exchange_dict["rates"][target_currency]
+            / exchange_dict["rates"][base_currency]
+        )
