@@ -106,10 +106,21 @@ def listings():
                         if "currency" in query_params:
                             currency_filter = []
                             for listing_item in listings_list:
-                                if listing_item["currency"] in query_params["currency"].upper():
+                                if (
+                                    listing_item["currency"]
+                                    in query_params["currency"].upper()
+                                ):
                                     currency_filter.append(listing_item)
 
-                            filtered_listings = [i for i in filtered_listings if i in currency_filter]
+                            filtered_listings = [
+                                i for i in filtered_listings if i in currency_filter
+                            ]
+                        else:
+                            return jsonify(
+                                {
+                                    "Error": "Base price query parameter should be paired with currency. Please try again"
+                                }
+                            )
 
             # market filtering
             elif "market" in query_params:
@@ -133,6 +144,9 @@ def listings():
                 for listing_item in listings_list:
                     if listing_item["currency"] == query_params["currency"].upper():
                         filtered_listings.append(listing_item)
+
+            else:
+                return jsonify({"Error": "Unsupported query args. Please try again."})
 
             # endregion filtering
 
@@ -167,7 +181,7 @@ def listing(id):
 
     if request.method == "GET":
         if request.args:
-            return jsonify({"Error": "Unsupported query args. Please try again."})
+            return jsonify({"Error": "Query parameters not expected. Please consider removing them."})
         return jsonify({"listing_item": listing_list[id]})
 
     if request.method == "PUT":
