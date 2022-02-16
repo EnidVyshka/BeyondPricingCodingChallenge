@@ -93,13 +93,23 @@ class LISTING:
         for listing_item in listings_list:
             if comparison_type == "gt" and listing_item["base_price"] > threshold_price:
                 filtered_element.append(listing_item)
-            elif comparison_type == "gte" and listing_item["base_price"] >= threshold_price:
+            elif (
+                comparison_type == "gte"
+                and listing_item["base_price"] >= threshold_price
+            ):
                 filtered_element.append(listing_item)
-            elif comparison_type == "lt" and listing_item["base_price"] < threshold_price:
+            elif (
+                comparison_type == "lt" and listing_item["base_price"] < threshold_price
+            ):
                 filtered_element.append(listing_item)
-            elif comparison_type == "lte" and listing_item["base_price"] <= threshold_price:
+            elif (
+                comparison_type == "lte"
+                and listing_item["base_price"] <= threshold_price
+            ):
                 filtered_element.append(listing_item)
-            elif comparison_type == "e" and listing_item["base_price"] == threshold_price:
+            elif (
+                comparison_type == "e" and listing_item["base_price"] == threshold_price
+            ):
                 filtered_element.append(listing_item)
 
         return filtered_element

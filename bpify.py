@@ -104,7 +104,7 @@ def listings():
                     if listing_item["market"] in query_params["market"].split(","):
                         filtered_listings.append(listing_item)
             # currency filtering
-            elif "currency" in query_params:
+            if "currency" in query_params:
                 try:
                     CURRENCIES.get_by_code(code=query_params["currency"].upper())
                 except Exception as error:
@@ -115,7 +115,9 @@ def listings():
                         filtered_listings.append(listing_item)
 
             # base_price filtering
-            elif "base_price." in query_params_serialized:
+            if "base_price." in query_params_serialized and (
+                ("currency" or "market") in query_params
+            ):
                 for param, price in query_params.items():
                     if "base_price" in param.split("."):
                         comparison_type = param.split(".")[1]
@@ -213,8 +215,8 @@ def listing_calendar(id):
                 for listing_item in base_listings_calendar:
                     listing_item["currency"] = query_currency
                     listing_item["price"] = (
-                            base_price
-                            * CURRENCIES.exchange_coefficient(currency, query_currency)
+                        base_price
+                        * CURRENCIES.exchange_coefficient(currency, query_currency)
                     )
                 return jsonify(
                     {f"listing_calendar_{query_currency}": base_listings_calendar}

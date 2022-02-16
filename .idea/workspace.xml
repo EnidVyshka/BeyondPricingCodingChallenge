@@ -6,6 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="6c60d1d2-83e2-420b-805f-4b52cf24e5cd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bpify.py" beforeDir="false" afterPath="$PROJECT_DIR$/bpify.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/listings.py" beforeDir="false" afterPath="$PROJECT_DIR$/listings.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
