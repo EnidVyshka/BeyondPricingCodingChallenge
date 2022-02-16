@@ -118,7 +118,7 @@ def listings():
                         else:
                             return jsonify(
                                 {
-                                    "Error": "Base price query parameter should be paired with currency. Please try again"
+                                    "Error": "Base price query parameter should be paired with currency. Please try again."
                                 }
                             )
 
@@ -146,7 +146,11 @@ def listings():
                         filtered_listings.append(listing_item)
 
             else:
-                return jsonify({"Error": "Unsupported query args. Please try again."})
+                return jsonify(
+                    {
+                        "Error": "Unsupported query parameter. Try one of the following: market=lisbon, base_price.gt=500, currency=usd"
+                    }
+                )
 
             # endregion filtering
 
@@ -181,7 +185,11 @@ def listing(id):
 
     if request.method == "GET":
         if request.args:
-            return jsonify({"Error": "Query parameters not expected. Please consider removing them."})
+            return jsonify(
+                {
+                    "Error": "Query parameters not expected. Please consider removing them."
+                }
+            )
         return jsonify({"listing_item": listing_list[id]})
 
     if request.method == "PUT":
@@ -243,4 +251,8 @@ def listing_calendar(id):
             else:
                 return jsonify({"base_listings_calendar": base_listings_calendar})
         else:
-            return jsonify({"Error": "Unsupported query args. Please try again."})
+            return jsonify(
+                {
+                    "Error": "Unsupported query parameter. Try one of the following: market=lisbon, base_price.gt=500, currency=usd"
+                }
+            )
