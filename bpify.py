@@ -76,17 +76,17 @@ def markets():
 
 @app.route("/listings", methods=["GET", "POST"])
 def listings():
-    listing_list = [listing_item.to_dict() for listing_item in LISTING.get_all()]
+    listings_list = [listing_item.to_dict() for listing_item in LISTING.get_all()]
     query_params = request.args
     query_params_serialized = ", ".join(f"{k}: {v}" for k, v in query_params.items())
 
     if request.method == "GET":
 
         # Comment out the 'for' loop to show calendar attribute
-        for listing_item in listing_list:
+        for listing_item in listings_list:
             listing_item.pop("calendar")
         if not query_params:
-            return jsonify(listing_list)
+            return jsonify(listings_list)
 
         else:
             # region filtering
@@ -100,7 +100,7 @@ def listings():
                     except Exception as error:
                         return jsonify({"Error": str(error)})
 
-                for listing_item in listing_list:
+                for listing_item in listings_list:
                     if listing_item["market"] in query_params["market"].split(","):
                         filtered_listings.append(listing_item)
             # currency filtering
@@ -110,7 +110,7 @@ def listings():
                 except Exception as error:
                     return jsonify({"Error": str(error)})
 
-                for listing_item in listing_list:
+                for listing_item in listings_list:
                     if listing_item["currency"] == query_params["currency"].upper():
                         filtered_listings.append(listing_item)
 
@@ -118,11 +118,11 @@ def listings():
             elif "base_price." in query_params_serialized:
                 for param, price in query_params.items():
                     if "base_price" in param.split("."):
-                        comparison_sign = param.split(".")[1]
+                        comparison_type = param.split(".")[1]
 
                         filtered_listings = LISTING.comparison_function(
-                            listings_list=listing_list,
-                            comparison_sign=comparison_sign,
+                            listings_list=listings_list,
+                            comparison_type=comparison_type,
                             threshold_price=float(price),
                         )
             else:
@@ -136,7 +136,7 @@ def listings():
         new_item = (
             {
                 "id": len(
-                    listing_list
+                    listings_list
                 ),  # first item index on listings_list=0 (id = 0) -> new item id = id(len(listings_list))
                 "title": data_json["title"],
                 "base_price": data_json["base_price"],
@@ -144,7 +144,7 @@ def listings():
                 "market": data_json["market"],
             },
         )
-        listing_list.append(new_item)
+        listings_list.append(new_item)
         return jsonify(new_item)
 
 

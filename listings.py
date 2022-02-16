@@ -87,19 +87,19 @@ class LISTING:
 
     @classmethod
     def comparison_function(
-        cls, listings_list, comparison_sign, threshold_price
+        cls, listings_list, comparison_type, threshold_price
     ) -> List[Dict]:
         filtered_element = []
         for listing_item in listings_list:
-            if comparison_sign == "gt" and listing_item["base_price"] > threshold_price:
+            if comparison_type == "gt" and listing_item["base_price"] > threshold_price:
                 filtered_element.append(listing_item)
-            elif comparison_sign == "gte" and listing_item["base_price"] >= threshold_price:
+            elif comparison_type == "gte" and listing_item["base_price"] >= threshold_price:
                 filtered_element.append(listing_item)
-            elif comparison_sign == "lt" and listing_item["base_price"] < threshold_price:
+            elif comparison_type == "lt" and listing_item["base_price"] < threshold_price:
                 filtered_element.append(listing_item)
-            elif comparison_sign == "lte" and listing_item["base_price"] <= threshold_price:
+            elif comparison_type == "lte" and listing_item["base_price"] <= threshold_price:
                 filtered_element.append(listing_item)
-            elif comparison_sign == "e" and listing_item["base_price"] == threshold_price:
+            elif comparison_type == "e" and listing_item["base_price"] == threshold_price:
                 filtered_element.append(listing_item)
 
         return filtered_element
