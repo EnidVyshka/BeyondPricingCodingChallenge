@@ -41,6 +41,14 @@ class LISTING:
             calendar,
         ),
         Listing(
+            "Duplex Room In City Center (2)",
+            900,
+            CURRENCIES.EUR,
+            MARKETS.LISBON,
+            "Tim Jones (2)",
+            calendar,
+        ),
+        Listing(
             "Private Villa In  Village",
             1200,
             CURRENCIES.JPY,

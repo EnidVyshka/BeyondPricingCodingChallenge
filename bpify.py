@@ -92,32 +92,7 @@ def listings():
             # region filtering
             filtered_listings = []
 
-            # market filtering
-            if "market" in query_params:
-                for market_code in query_params["market"].split(","):
-                    try:
-                        MARKETS.get_by_code(code=market_code)
-                    except Exception as error:
-                        return jsonify({"Error": str(error)})
-
-                for listing_item in listings_list:
-                    if listing_item["market"] in query_params["market"].split(","):
-                        filtered_listings.append(listing_item)
-            # currency filtering
-            if "currency" in query_params:
-                try:
-                    CURRENCIES.get_by_code(code=query_params["currency"].upper())
-                except Exception as error:
-                    return jsonify({"Error": str(error)})
-
-                for listing_item in listings_list:
-                    if listing_item["currency"] == query_params["currency"].upper():
-                        filtered_listings.append(listing_item)
-
-            # base_price filtering
-            if "base_price." in query_params_serialized and (
-                ("currency" or "market") in query_params
-            ):
+            if "base_price." in query_params_serialized:
                 for param, price in query_params.items():
                     if "base_price" in param.split("."):
                         comparison_type = param.split(".")[1]
@@ -127,8 +102,38 @@ def listings():
                             comparison_type=comparison_type,
                             threshold_price=float(price),
                         )
-            else:
-                return jsonify({"Error": "Unsupported query args. Please try again."})
+
+                        if "currency" in query_params:
+                            currency_filter = []
+                            for listing_item in listings_list:
+                                if listing_item["currency"] in query_params["currency"].upper():
+                                    currency_filter.append(listing_item)
+
+                            filtered_listings = [i for i in filtered_listings if i in currency_filter]
+
+            # market filtering
+            elif "market" in query_params:
+                for market_code in query_params["market"].split(","):
+                    try:
+                        MARKETS.get_by_code(code=market_code)
+                    except Exception as error:
+                        return jsonify({"Error": str(error)})
+
+                for listing_item in listings_list:
+                    if listing_item["market"] in query_params["market"].split(","):
+                        filtered_listings.append(listing_item)
+
+            # currency filtering
+            elif "currency" in query_params:
+                try:
+                    CURRENCIES.get_by_code(code=query_params["currency"].upper())
+                except Exception as error:
+                    return jsonify({"Error": str(error)})
+
+                for listing_item in listings_list:
+                    if listing_item["currency"] == query_params["currency"].upper():
+                        filtered_listings.append(listing_item)
+
             # endregion filtering
 
             return jsonify({"filtered_listings": filtered_listings})
