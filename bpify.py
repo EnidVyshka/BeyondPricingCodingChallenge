@@ -106,12 +106,12 @@ def listings():
             # currency filtering
             elif "currency" in query_params:
                 try:
-                    CURRENCIES.get_by_code(code=query_params["currency"])
+                    CURRENCIES.get_by_code(code=query_params["currency"].upper())
                 except Exception as error:
                     return jsonify({"Error": str(error)})
 
                 for listing_item in listing_list:
-                    if listing_item["currency"] == query_params["currency"]:
+                    if listing_item["currency"] == query_params["currency"].upper():
                         filtered_listings.append(listing_item)
 
             # base_price filtering
@@ -202,7 +202,7 @@ def listing_calendar(id):
             return jsonify({"base_listings_calendar": base_listings_calendar})
 
         elif "currency" in query_params:
-            query_currency = query_params["currency"]
+            query_currency = query_params["currency"].upper()
 
             try:
                 CURRENCIES.get_by_code(query_currency)
