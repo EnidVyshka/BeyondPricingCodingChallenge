@@ -104,6 +104,10 @@ def listings():
                         )
 
                         if "currency" in query_params:
+                            try:
+                                CURRENCIES.get_by_code(code=query_params["currency"].upper())
+                            except Exception as error:
+                                return jsonify({"Error": str(error)})
                             currency_filter = []
                             for listing_item in listings_list:
                                 if (
